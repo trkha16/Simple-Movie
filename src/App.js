@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { NavLink } from "react-router-dom";
+import MovieList from "./components/movie/MovieList";
 
 function App() {
     return (
@@ -41,73 +42,19 @@ function App() {
                 <h2 className="text-white capitalize mb-10 text-3xl font-bold">
                     now playing
                 </h2>
-                <div className="movie-list grid grid-cols-4 gap-10">
-                    <div className="movie-card rounded-lg p-3 bg-slate-800 text-white">
-                        <img
-                            src="https://cdnimg.vietnamplus.vn/t1200/Uploaded/Mtpyelagtpy/2019_04_29/avengersendgame2904.jpg"
-                            alt=""
-                            className="w-full h-[250px] object-cover rounded-lg mb-5"
-                        />
-                        <h3 className="text-white text-xl font-bold mb-3">
-                            Spiderman
-                        </h3>
-                        <div className="flex items-center justify-between text-sm opacity-50 mb-10">
-                            <span>2017</span>
-                            <span>7.4</span>
-                        </div>
-                        <button className="py-3 px-6 rounded-lg capitalize bg-primary w-full">
-                            Watch now
-                        </button>
-                    </div>
-                </div>
+                <MovieList></MovieList>
             </section>
             <section className="movies-layout page-container pb-20">
                 <h2 className="text-white capitalize mb-10 text-3xl font-bold">
                     top rated
                 </h2>
-                <div className="movie-list grid grid-cols-4 gap-10">
-                    <div className="movie-card rounded-lg p-3 bg-slate-800 text-white">
-                        <img
-                            src="https://cdnimg.vietnamplus.vn/t1200/Uploaded/Mtpyelagtpy/2019_04_29/avengersendgame2904.jpg"
-                            alt=""
-                            className="w-full h-[250px] object-cover rounded-lg mb-5"
-                        />
-                        <h3 className="text-white text-xl font-bold mb-3">
-                            Spiderman
-                        </h3>
-                        <div className="flex items-center justify-between text-sm opacity-50 mb-10">
-                            <span>2017</span>
-                            <span>7.4</span>
-                        </div>
-                        <button className="py-3 px-6 rounded-lg capitalize bg-primary w-full">
-                            Watch now
-                        </button>
-                    </div>
-                </div>
+                <MovieList type="top_rated"></MovieList>
             </section>
             <section className="movies-layout page-container pb-20">
                 <h2 className="text-white capitalize mb-10 text-3xl font-bold">
                     trending
                 </h2>
-                <div className="movie-list grid grid-cols-4 gap-10">
-                    <div className="movie-card rounded-lg p-3 bg-slate-800 text-white">
-                        <img
-                            src="https://cdnimg.vietnamplus.vn/t1200/Uploaded/Mtpyelagtpy/2019_04_29/avengersendgame2904.jpg"
-                            alt=""
-                            className="w-full h-[250px] object-cover rounded-lg mb-5"
-                        />
-                        <h3 className="text-white text-xl font-bold mb-3">
-                            Spiderman
-                        </h3>
-                        <div className="flex items-center justify-between text-sm opacity-50 mb-10">
-                            <span>2017</span>
-                            <span>7.4</span>
-                        </div>
-                        <button className="py-3 px-6 rounded-lg capitalize bg-primary w-full">
-                            Watch now
-                        </button>
-                    </div>
-                </div>
+                <MovieList type="popular"></MovieList>
             </section>
         </Fragment>
     );
