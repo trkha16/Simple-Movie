@@ -1,5 +1,6 @@
 function MovieCard({ item }) {
     const { title, vote_average, release_date, poster_path } = item;
+
     return (
         <div className="movie-card flex flex-col rounded-lg p-3 bg-slate-800 text-white h-full select-none">
             <img
