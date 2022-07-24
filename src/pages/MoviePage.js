@@ -11,7 +11,8 @@ function MoviePage() {
         "https://api.themoviedb.org/3/movie/popular?api_key=e88c22fe317cce5ec41675bd57d6efee"
     );
 
-    const { data } = useSWR(url, fetcher);
+    const { data, error } = useSWR(url, fetcher);
+    const loading = !data && !error;
 
     const filterDebounce = useDebounce(filter, 500);
     const handleFilterChange = (e) => {
@@ -60,11 +61,54 @@ function MoviePage() {
                     </svg>
                 </button>
             </div>
+            {loading && (
+                <div className="w-10 h-10 rounded-full border-4 border-primary border-t-4 border-t-transparent animate-spin mx-auto"></div>
+            )}
             <div className="grid grid-cols-4 gap-10">
                 {movies.length > 0 &&
                     movies.map((item) => (
                         <MovieCard key={item.id} item={item}></MovieCard>
                     ))}
+            </div>
+            <div className="flex items-center justify-center mt-10 gap-x-5">
+                <span className="cursor-pointer">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                </span>
+                <span className="cursor-pointer inline-block py-2 px-4 rounded leading-none bg-white text-slate-900 ">
+                    1
+                </span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span className="cursor-pointer">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 5l7 7-7 7"
+                        />
+                    </svg>
+                </span>
             </div>
         </div>
     );
