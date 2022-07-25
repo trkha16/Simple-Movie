@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { fetcher } from "../../config";
+import { fetcher, tmdbAPI } from "../../config";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import Button from "../button/Button";
@@ -30,6 +30,7 @@ export default Banner;
 
 const BannerItem = ({ item }) => {
     const { title, poster_path, id } = item;
+    const { data } = useSWR(tmdbAPI.getMovieDetails(id), fetcher);
 
     const navigate = useNavigate();
 
@@ -44,15 +45,15 @@ const BannerItem = ({ item }) => {
             <div className="absolute left-5 bottom-5 w-full text-white">
                 <h2 className="font-bold text-3xl mb-5">{title}</h2>
                 <div className="flex items-center gap-x-3 mb-8">
-                    <span className="py-2 px-4 border border-white rounded-md">
-                        Adventure
-                    </span>
-                    <span className="py-2 px-4 border border-white rounded-md">
-                        Adventure
-                    </span>
-                    <span className="py-2 px-4 border border-white rounded-md">
-                        Adventure
-                    </span>
+                    {data?.genres.length > 0 &&
+                        data?.genres.map((item) => (
+                            <span
+                                key={item.id}
+                                className="py-2 px-4 border border-white rounded-md"
+                            >
+                                {item.name}
+                            </span>
+                        ))}
                 </div>
                 <Button onClick={() => navigate(`/movies/${id}`)}>
                     Watch now
