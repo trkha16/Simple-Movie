@@ -3,12 +3,18 @@ import useSWR from "swr";
 import MovieCard from "../components/movie/MovieCard";
 import { fetcher } from "../config";
 import useDebounce from "../hooks/useDebounce";
+import ReactPaginate from "react-paginate";
 
 // https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
+const itemsPerPage = 20;
+
 function MoviePage() {
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState(0);
+    const [nextPage, setNextPage] = useState(1);
     const [filter, setFilter] = useState("");
     const [url, setUrl] = useState(
-        "https://api.themoviedb.org/3/movie/popular?api_key=e88c22fe317cce5ec41675bd57d6efee"
+        `https://api.themoviedb.org/3/movie/popular?api_key=e88c22fe317cce5ec41675bd57d6efee&page=${nextPage}`
     );
 
     const { data, error } = useSWR(url, fetcher);
@@ -20,18 +26,29 @@ function MoviePage() {
     };
 
     useEffect(() => {
-        if (filterDebounce)
+        if (filterDebounce) {
             setUrl(
-                `https://api.themoviedb.org/3/search/movie?api_key=e88c22fe317cce5ec41675bd57d6efee&query=${filterDebounce}`
+                `https://api.themoviedb.org/3/search/movie?api_key=e88c22fe317cce5ec41675bd57d6efee&query=${filterDebounce}&page=${nextPage}`
             );
-        else {
+        } else {
             setUrl(
-                "https://api.themoviedb.org/3/movie/popular?api_key=e88c22fe317cce5ec41675bd57d6efee"
+                `https://api.themoviedb.org/3/movie/popular?api_key=e88c22fe317cce5ec41675bd57d6efee&page=${nextPage}`
             );
         }
-    }, [filterDebounce]);
+    }, [filterDebounce, nextPage]);
 
     const movies = data?.results || [];
+
+    useEffect(() => {
+        if (!data || !data.total_results) return;
+        setPageCount(Math.ceil(data.total_results / itemsPerPage));
+    }, [data, itemOffset]);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % data.total_results;
+        setItemOffset(newOffset);
+        setNextPage(event.selected + 1);
+    };
 
     return (
         <div className="py-10 page-container">
@@ -70,45 +87,17 @@ function MoviePage() {
                         <MovieCard key={item.id} item={item}></MovieCard>
                     ))}
             </div>
-            <div className="flex items-center justify-center mt-10 gap-x-5">
-                <span className="cursor-pointer">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
-                </span>
-                <span className="cursor-pointer inline-block py-2 px-4 rounded leading-none bg-white text-slate-900 ">
-                    1
-                </span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span className="cursor-pointer">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </span>
+            <div className="mt-10">
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    className="pagination"
+                />
             </div>
         </div>
     );
