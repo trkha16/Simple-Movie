@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { tmdbAPI } from "../../config";
 import Button from "../button/Button";
 
 function MovieCard({ item }) {
@@ -9,7 +10,7 @@ function MovieCard({ item }) {
     return (
         <div className="movie-card flex flex-col rounded-lg p-3 bg-slate-800 text-white h-full select-none">
             <img
-                src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+                src={`${tmdbAPI.Image500(poster_path)}`}
                 alt=""
                 className="w-full h-[250px] object-cover rounded-lg mb-5"
             />
