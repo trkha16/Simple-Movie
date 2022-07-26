@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Route, Routes } from "react-router-dom";
 import "swiper/scss";
 import Banner from "./components/banner/Banner";
+import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import Main from "./pages/Main";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
@@ -29,6 +30,7 @@ function App() {
                         path="/movies/:movieId"
                         element={<MovieDetailsPage></MovieDetailsPage>}
                     ></Route>
+                    <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
                 </Route>
             </Routes>
         </Fragment>
