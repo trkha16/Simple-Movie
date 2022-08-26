@@ -40,7 +40,7 @@ function MovieDetailsPage() {
             </h1>
             {data?.genres.length > 0 && (
                 <div className="flex items-center justify-center gap-x-5 mb-10">
-                    {data?.genres.map((item) => (
+                    {data?.genres.slice(0, 2).map((item) => (
                         <span
                             key={item.id}
                             className="py-2 px-4 border border-primary text-primary rounded"
@@ -73,7 +73,7 @@ function MovieCredits() {
     return (
         <div className="py-10">
             <h2 className="text-center text-3xl mb-10">Casts</h2>
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid xs:grid-cols-4 grid-cols-2 gap-5">
                 {cast.slice(0, 4).map((item) => (
                     <div className="cast-item" key={item.id}>
                         <img

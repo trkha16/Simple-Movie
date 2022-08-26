@@ -92,11 +92,11 @@ function MoviePage() {
             <div className="mt-10">
                 <ReactPaginate
                     breakLabel="..."
-                    nextLabel="next >"
+                    nextLabel=">"
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={3}
                     pageCount={pageCount}
-                    previousLabel="< previous"
+                    previousLabel="<"
                     renderOnZeroPageCount={null}
                     className="pagination"
                 />
