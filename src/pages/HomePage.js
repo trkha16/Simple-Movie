@@ -1,7 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import MovieList from "../components/movie/MovieList";
 
 function HomePage() {
+    useEffect(() => {
+        document.title = "Simple Movies";
+    }, []);
+
     return (
         <Fragment>
             <section className="movies-layout page-container pb-20">

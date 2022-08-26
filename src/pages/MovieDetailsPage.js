@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useSWR from "swr";
@@ -8,8 +9,11 @@ function MovieDetailsPage() {
     const { movieId } = useParams();
     const { data } = useSWR(tmdbAPI.getMovieDetails(movieId), fetcher);
 
+    useEffect(() => {
+        document.title = data?.title || "Simple Movies";
+    }, [data?.title]);
+
     if (!data) return null;
-    const { backdrop_path, poster_path, title, genres, overview } = data;
 
     return (
         <div className="py-10">
@@ -19,24 +23,24 @@ function MovieDetailsPage() {
                     className="w-full h-full bg-cover bg-no-repeat"
                     style={{
                         backgroundImage: `url(${tmdbAPI.ImageOriginal(
-                            backdrop_path
+                            data?.backdrop_path
                         )})`,
                     }}
                 ></div>
             </div>
             <div className="w-full h-[400px] max-w-[800px] mx-auto -mt-[200px] relative z-10 pb-10">
                 <img
-                    src={`${tmdbAPI.ImageOriginal(poster_path)}`}
+                    src={`${tmdbAPI.ImageOriginal(data?.poster_path)}`}
                     alt=""
                     className="w-full h-full object-cover rounded-lg"
                 />
             </div>
             <h1 className="text-center text-4xl font-bold text-white mb-10">
-                {title}
+                {data?.title}
             </h1>
-            {genres.length > 0 && (
+            {data?.genres.length > 0 && (
                 <div className="flex items-center justify-center gap-x-5 mb-10">
-                    {genres.map((item) => (
+                    {data?.genres.map((item) => (
                         <span
                             key={item.id}
                             className="py-2 px-4 border border-primary text-primary rounded"
@@ -47,7 +51,7 @@ function MovieDetailsPage() {
                 </div>
             )}
             <p className="text-center max-w-[600px] mx-auto leading-relaxed mb-10">
-                {overview}
+                {data?.overview}
             </p>
             <MovieCredits></MovieCredits>
             <MovieVideos></MovieVideos>
@@ -73,7 +77,7 @@ function MovieCredits() {
                 {cast.slice(0, 4).map((item) => (
                     <div className="cast-item" key={item.id}>
                         <img
-                            src={`${tmdbAPI.ImageOriginal(item.profile_path)}`}
+                            src={`${tmdbAPI.ImageOriginal(item?.profile_path)}`}
                             alt=""
                             className="w-full h-[350px] object-cover rounded-lg mb-3"
                         />

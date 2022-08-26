@@ -24,6 +24,10 @@ function MoviePage() {
     };
 
     useEffect(() => {
+        document.title = "Simple Movies";
+    }, []);
+
+    useEffect(() => {
         if (filterDebounce) {
             setUrl(tmdbAPI.getMovieSearch(filterDebounce, nextPage));
         } else {
@@ -73,13 +77,13 @@ function MoviePage() {
                 </button>
             </div>
             {loading && (
-                <div className="grid grid-cols-4 gap-10">
+                <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-10">
                     {new Array(20).fill(0).map(() => (
                         <MovieCardSkeleton key={v4()}></MovieCardSkeleton>
                     ))}
                 </div>
             )}
-            <div className="grid grid-cols-4 gap-10">
+            <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-10">
                 {movies.length > 0 &&
                     movies.map((item) => (
                         <MovieCard key={item.id} item={item}></MovieCard>

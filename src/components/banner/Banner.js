@@ -46,7 +46,7 @@ const BannerItem = ({ item }) => {
                 <h2 className="font-bold text-3xl mb-5">{title}</h2>
                 <div className="flex items-center gap-x-3 mb-8">
                     {data?.genres.length > 0 &&
-                        data?.genres.map((item) => (
+                        data?.genres.slice(0, 2).map((item) => (
                             <span
                                 key={item.id}
                                 className="py-2 px-4 border border-white rounded-md"
